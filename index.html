@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dejavu offline</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico">
+    <!-- Modern Unicode-friendly font stack loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Symbols+2&family=Noto+Sans+Symbols:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --modern-font-stack: "Noto Sans", "Noto Sans Symbols 2", "Noto Sans Symbols",
+                                 "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji",
+                                 "Apple Color Emoji", "Noto Color Emoji",
+                                 "Twemoji Mozilla", sans-serif;
+        }
+
+        body {
+            background-color: #c0c0c0;
+            margin: 0;
+            padding: 0;
+            font-family: var(--modern-font-stack);
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        button, input, select, textarea, option, label,
+        .title-bar-text, .status-bar-field, .window, .menu-item,
+        table, th, td, pre, code, .tab-content, .tree-item {
+            font-family: var(--modern-font-stack) !important;
+            line-height: 1.35;
+        }
+
+        /* Fix for Tailwind Preflight resetting padding on inputs, causing text to be hidden behind 98.css inset borders */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="number"],
+        input[type="search"],
+        textarea {
+            padding: 3px 4px !important;
+        }
+
+        select {
+            padding: 3px 32px 3px 4px !important;
+        }
+
+        #root {
+            height: 100%;
+            width: 100%;
+        }
+
+        .window {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border: none;
+            box-shadow: none;
+        }
+
+        .window-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Menu Bar Styles */
+        .menu-bar {
+            display: flex;
+            background: #c0c0c0;
+            padding: 1px 2px;
+            gap: 2px;
+            border-bottom: 1px solid #808080;
+            user-select: none;
+        }
+
+        .menu-item {
+            padding: 2px 6px;
+            cursor: default;
+            font-size: 11px;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: #000080;
+            color: white;
+        }
+
+        .menu-item:active {
+            background: #000080;
+            color: white;
+        }
+
+        .module-nav {
+            padding: 4px 4px 0 4px;
+            background: #c0c0c0;
+            border-bottom: 1px solid #808080;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            padding: 8px;
+            gap: 8px;
+            background: #c0c0c0;
+        }
+
+        .border-inset {
+            box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+        }
+
+        .tree-view {
+            background: white;
+            box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tree-item {
+            padding: 2px 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+        }
+
+        .tree-item:hover {
+            background: #e0e0e0;
+        }
+
+        .tree-item.selected {
+            background: #000080;
+            color: white;
+        }
+
+        table.win98 {
+            font-size: 11px;
+            border-collapse: collapse;
+        }
+
+        table.win98 th {
+            text-align: left;
+            padding: 2px 6px;
+            background: #c0c0c0;
+            box-shadow: inset 1px 1px #fff, inset -1px -1px #808080;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        table.win98 td {
+            padding: 2px 6px;
+            border: 1px solid #dfdfdf;
+        }
+
+        .preview-large {
+            font-size: 48px;
+            background: white;
+            border: 2px inset #dfdfdf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            margin-bottom: 12px;
+        }
+
+        .invisible-token {
+            background: #ffffcc;
+            border: 1px dotted #808080;
+            color: #cc0000;
+            font-size: 9px;
+            padding: 0 2px;
+            margin: 0 1px;
+            font-weight: bold;
+        }
+
+        fieldset {
+            padding: 10px;
+            margin-bottom: 4px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #006400; /* Standardized Dark Green */
+        }
+
+        .placeholder-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #808080; /* Shadow color */
+        }
+
+        .placeholder-card {
+            background: #c0c0c0;
+            box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #dfdfdf, inset 2px 2px #dfdfdf;
+            padding: 20px;
+            width: 320px;
+            border: 1px solid #000;
+        }
+
+        /* Fixed detail container scroll */
+        .details-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .tab-content {
+            flex: 1;
+            background: #c0c0c0;
+            padding: 10px;
+            overflow-y: auto;
+            border: 2px inset #dfdfdf;
+            border-top: none;
+        }
+
+        .list-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-width: 350px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/app/main.tsx"></script>
+</body>
+</html>

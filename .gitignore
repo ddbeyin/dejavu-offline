@@ -1,0 +1,124 @@
+# ============================================
+# Environment & Credentials
+# ============================================
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# AI Assistants & Coding Agents
+# ============================================
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.aider.conf.yml
+CONVENTIONS.md
+.amazonq/
+.junie/
+.aiignore
+.clinerules
+.cline/
+.continue/
+.continuerules
+.continuerc.json
+.roo/
+.roorules
+AGENTS.md
+AGENTS.override.md
+GEMINI.md
+.geminiignore
+.augment/
+.augment-guidelines
+.rules
+.github/copilot-instructions.md
+.github/*.instructions.md
+.github/prompts/
+
+# ============================================
+# IDEs & Editors
+# ============================================
+
+# VS Code
+.vscode/
+*.vsix
+*.code-workspace
+
+# JetBrains (WebStorm, IntelliJ, etc.)
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Vim / Neovim
+[._]*.s[a-v][a-z]
+!*.svg
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+tags
+[._]*.un~
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+sftp-config.json
+sftp-config-alt*.json
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# OS-Specific
+# ============================================
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+__MACOSX/
+._*
+
+# Linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Node.js
+# ============================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.eslintcache
+.stylelintcache
+.cache
+
+# ============================================
+# Build & Test Output
+# ============================================
+dist/
+dist-ssr/
+coverage/
+*.lcov
+logs/
+*.log
+tmp/
+temp/

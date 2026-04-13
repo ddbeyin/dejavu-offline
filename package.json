@@ -1,0 +1,32 @@
+{
+  "name": "dejavu-offline",
+  "private": true,
+  "license": "MIT",
+  "author": "Murat Can Ertanç (https://github.com/ddbeyin)",
+  "version": "1.0.0",
+  "description": "Client-side toolkit for analyzing game telemetry (CSV/TSV) directly in the browser.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddbeyin/dejavu-offline.git"
+  },
+  "homepage": "https://ddbeyin.github.io/dejavu-offline/",
+  "bugs": {
+    "url": "https://github.com/ddbeyin/dejavu-offline/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
