@@ -81,11 +81,20 @@ export const LogAnalyzer: React.FC<{ onStatusUpdate: (s: string) => void }> = ({
     return registry.subscribe(() => setModules(registry.getAll()));
   }, []);
 
-  // Reset state when module selection changes
+  // Reset state when module selection changes, applying any defaultValue
+  // declared by the module's parameters so 'select' dropdowns start on a
+  // sensible value instead of blank.
   useEffect(() => {
-    setParams({});
+    const mod = modules.find(m => m.id === selectedModuleId);
+    const initial: Record<string, any> = {};
+    if (mod?.parameters) {
+      for (const p of mod.parameters) {
+        if (p.defaultValue !== undefined) initial[p.name] = p.defaultValue;
+      }
+    }
+    setParams(initial);
     setResult(null);
-  }, [selectedModuleId]);
+  }, [selectedModuleId, modules]);
 
   const handleRun = async () => {
     if (!selectedModuleId || !dataset) return;
@@ -187,15 +196,22 @@ export const LogAnalyzer: React.FC<{ onStatusUpdate: (s: string) => void }> = ({
                   <div key={p.name} className="field-row-stacked">
                     <label>{p.label}: {p.required && '*'}</label>
                     {p.type === 'columnSelect' ? (
-                      <select 
-                        value={params[p.name] || ''} 
+                      <select
+                        value={params[p.name] || ''}
                         onChange={e => setParams({...params, [p.name]: e.target.value})}
                       >
                         <option value="">-- Select Column --</option>
                         {dataset.headers.map(h => <option key={h} value={h}>{h}</option>)}
                       </select>
+                    ) : p.type === 'select' ? (
+                      <select
+                        value={params[p.name] ?? p.defaultValue ?? ''}
+                        onChange={e => setParams({...params, [p.name]: e.target.value})}
+                      >
+                        {p.options?.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                      </select>
                     ) : (
-                      <input 
+                      <input
                         type={p.type === 'number' ? 'number' : 'text'}
                         value={params[p.name] || ''}
                         onChange={e => setParams({...params, [p.name]: e.target.value})}

@@ -49,7 +49,12 @@ export interface Dataset {
 
 // --- Analysis Module Architecture ---
 
-export type ModuleParameterType = 'string' | 'number' | 'boolean' | 'columnSelect';
+export type ModuleParameterType = 'string' | 'number' | 'boolean' | 'columnSelect' | 'select';
+
+export interface ModuleParameterOption {
+  value: string;
+  label: string;
+}
 
 export interface ModuleParameter {
   name: string;
@@ -58,6 +63,8 @@ export interface ModuleParameter {
   description?: string;
   defaultValue?: any;
   required?: boolean;
+  // For type='select': the available options. Ignored for other types.
+  options?: ModuleParameterOption[];
 }
 
 export interface ModuleContext {
