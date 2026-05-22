@@ -52,6 +52,45 @@ export const detectDelimiter = (text: string, filename?: string): string => {
   return firstLine.includes('\t') ? '\t' : ',';
 };
 
+// RFC 4180-style CSV line parser. Respects quoted fields so that delimiters
+// inside quotes (e.g. `"iPhone14,3"` in a comma-delimited row) do not split
+// the field. Supports `""` as an escaped quote inside a quoted field.
+//
+// Limitation: this function operates on one already-extracted line. CSV
+// fields containing literal newlines inside quotes are not supported -- the
+// caller is expected to split the source text by newline first. Game
+// telemetry exports are one-event-per-line, so this is fine in practice.
+export const parseCsvLine = (line: string, delimiter: string): string[] => {
+  const fields: string[] = [];
+  let cur = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        cur += ch;
+      }
+    } else if (ch === '"' && cur.length === 0) {
+      inQuotes = true;
+    } else if (ch === delimiter) {
+      fields.push(cur);
+      cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  fields.push(cur);
+  return fields;
+};
+
 export const toUTF8Hex = (str: string): string => {
   const encoder = new TextEncoder();
   const bytes = encoder.encode(str);

@@ -3,7 +3,7 @@
   "private": true,
   "license": "MIT",
   "author": "Murat Can Ertanç (https://github.com/ddbeyin)",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Client-side toolkit for analyzing game telemetry (CSV/TSV) directly in the browser.",
   "type": "module",
   "repository": {

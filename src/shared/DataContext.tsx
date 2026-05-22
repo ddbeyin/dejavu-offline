@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Dataset, LogRow } from './types';
+import { parseCsvLine } from './utils';
 
 interface DataContextType {
   dataset: Dataset | null;
@@ -16,8 +17,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const lines = text.trim().split(/\r?\n/);
     if (lines.length < 1) return;
 
-    // Parse raw headers
-    const rawHeaders = lines[0].split(delimiter).map(h => h.trim().replace(/^"|"$/g, ''));
+    // Parse raw headers (quote-aware so a comma inside a quoted header does
+    // not split it -- though headers themselves rarely need quoting).
+    const rawHeaders = parseCsvLine(lines[0], delimiter).map(h => h.trim());
     
     // Deduplicate headers to ensure uniqueness.
     // Duplicate headers may cause data overwrites in the row object and React key collisions in the UI.
@@ -42,7 +44,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     for (let i = 1; i < lines.length; i++) {
       if (!lines[i].trim()) continue;
-      const values = lines[i].split(delimiter).map(v => v.trim().replace(/^"|"$/g, ''));
+      // Quote-aware split: a comma inside a quoted field (e.g. `"iPhone14,3"`
+      // in model_name) must not shift every subsequent column by one.
+      const values = parseCsvLine(lines[i], delimiter).map(v => v.trim());
       const row: LogRow = {};
       headers.forEach((header, index) => {
         row[header] = values[index] || "";
