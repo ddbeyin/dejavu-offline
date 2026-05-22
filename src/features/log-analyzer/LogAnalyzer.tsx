@@ -47,11 +47,11 @@ const ResultRenderer: React.FC<{ result: ModuleResult | null }> = ({ result }) =
     <div className="flex flex-col gap-4 p-2">
       {result.sections.map((section, idx) => (
         <fieldset key={idx}>
-          <legend>{section.title} ({section.type})</legend>
+          <legend>{section.title}</legend>
           {section.type === 'summary' && <SummarySection data={section.data} />}
           {section.type === 'table' && <ResultTableSection data={section.data} />}
           {section.type === 'text' && <pre className="bg-white p-2 border-inset overflow-auto text-xs">{section.data}</pre>}
-          {section.type === 'markdown' && <div className="bg-white p-2 border-inset text-xs">{section.data}</div>}
+          {section.type === 'markdown' && <div className="bg-white p-2 border-inset text-xs whitespace-pre-line">{section.data}</div>}
         </fieldset>
       ))}
       {result.logs && result.logs.length > 0 && (

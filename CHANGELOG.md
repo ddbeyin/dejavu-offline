@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-05-22
+
+### Changed
+
+- Result section legends in the Log Analyzer no longer display the section
+  type in parentheses. Previously every fieldset was labelled with its
+  rendering type (for example "Diagnostic Notes (markdown)" or
+  "Outcome of First Attempt (table)"); the type is visually obvious from
+  the rendered content and the suffix added noise.
+- `markdown`-type sections now honour line breaks in their content. The
+  renderer applies `white-space: pre-line`, so a single newline in the
+  module-supplied string becomes a visible line break and a blank line
+  becomes a paragraph break. Modules can now compose multi-paragraph notes
+  without resorting to HTML or markdown bullet syntax.
+
 ## [1.0.2] - 2026-05-22
 
 ### Fixed
